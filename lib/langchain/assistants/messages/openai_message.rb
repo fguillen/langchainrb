@@ -25,7 +25,11 @@ module Langchain
 
         @role = role
         # Some Tools return content as a JSON hence `.to_s`
-        @content = content.to_s
+        @content = if content.is_a?(Hash) || content.is_a?(Array)
+          content.to_json
+        else
+          content.to_s
+        end
         @tool_calls = tool_calls
         @tool_call_id = tool_call_id
       end
